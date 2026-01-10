@@ -1,0 +1,149 @@
+Vedlegg A – Sjekkliste for ny Docker-applikasjon (G16 Server)
+
+Dokumenttype: Operativ sjekkliste
+Status: Gjeldende
+Avledet fra:
+
+G16 Server – Autoritativ systeminstruks
+
+Kapittel 4 – Docker – kravspesifikasjon
+
+Kapittel 5 – Docker Compose – standard og praksis
+
+Kapittel 6 – Lagring, snapshots og backup-strategi
+
+Kapittel 7 – Varsling og overvåkning
+
+Dette dokumentet er et driftsverktøy og skal brukes ved etablering av
+alle nye Docker-baserte applikasjoner i G16 Server.
+
+Dokumentet kan ikke overstyre krav definert i
+G16 Server – Autoritativ systeminstruks.
+
+1. Forutsetninger (før installasjon)
+
+ Backup fungerer (snapshots + ZFS-replikering)
+
+ Varsling er aktiv og verifisert
+
+ Dette er eneste pågående endring nå
+
+ Endringen er vurdert opp mot G16 Server – Autoritativ systeminstruks
+
+2. Vurdering av applikasjonen
+
+ Applikasjonen kan kjøres i Docker Compose
+
+ Applikasjonen kan gjenopprettes fullstendig fra:
+
+docker-compose.yml
+
+.env
+
+persistente data i ZFS-datasets
+
+ Applikasjonen krever ikke direkte porteksponering
+
+ Eventuelle unntak er eksplisitt dokumentert
+
+ Applikasjonen er egnet for stabil drift i produksjon
+
+3. Mappestruktur og filer
+
+ Egen prosjektmappe er opprettet
+
+ docker-compose.yml inneholder ingen secrets
+
+ .env inneholder secrets og er satt med korrekt rettighet (chmod 600)
+
+ Persistente data ligger i eksplisitte ZFS-datasets
+
+ Ingen data lagres kun inne i container
+
+4. Nettverk og eksponering
+
+ Applikasjonen bruker eksplisitte Docker-nettverk
+
+ Kun applikasjonscontainer er koblet til proxy-nettverket
+
+ Databaser, cache og støttecontainere er ikke eksponert mot proxy
+
+ Ingen ports: benyttes for web-tjenester
+
+5. Traefik og Authentik (web-tjenester)
+
+ traefik.enable=true
+
+ traefik.docker.network=proxy
+
+ Router er eksplisitt bundet til service (Traefik v3)
+
+ Middleware er satt til authentik@file
+
+ authentik@docker brukes ikke
+
+6. Healthcheck
+
+ Healthcheck er definert for web-tjenester
+
+ Eventuelle $ i healthcheck-kommandoer er skrevet som $$
+
+ docker ps viser status healthy
+
+ Applikasjonen gir ikke 404/blank side via Traefik på grunn av unhealthy
+
+7. Lokal verifikasjon
+
+ docker compose up -d kjørt uten feil
+
+ docker ps kontrollert
+
+ docker logs gjennomgått
+
+ Lokal test gjennomført med:
+
+curl --resolve <host>:443:127.0.0.1 https://<host>
+
+8. Dokumentasjon
+
+ Egen Markdown-fil for applikasjonen er opprettet
+
+ Dokumentasjonen beskriver:
+
+formål og status (produksjon / test)
+
+containere og nettverk
+
+Traefik-integrasjon
+
+Authentik-bruk
+
+lagring og volumes
+
+drift og feilsøking
+
+ Eventuelle avvik fra fasiten er eksplisitt dokumentert
+
+9. Ferdigstillelse
+
+ Applikasjonen er tilgjengelig via HTTPS
+
+ Autentisering fungerer som forventet
+
+ Backup og gjenoppretting er vurdert
+
+ Endringen er klar for normal drift
+
+Changelog – Vedlegg A
+
+Denne changeloggen gjelder kun dette dokumentet.
+
+2026.01.10 – Versjon 1.0
+
+Første komplette og selvstendige versjon av sjekklisten
+
+Tidligere innhold som lå innebygd i hoveddokumentet er skilt ut
+
+Sjekklisten er gjort fullstendig, eksplisitt og uten eksterne henvisninger
+
+Ingen endring i krav – kun strukturell og dokumentmessig presisering
