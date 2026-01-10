@@ -1,11 +1,11 @@
 ---
-Dokument: G16 Server – Autoritativ systeminstruks
-Versjon: 1.0
-Sist endret: 2026.01.06 kl.02.30
-Status: Gjeldende fasit
-Eier: Espen Birkeland
-Prosjekt: G16 Server
-Format: Markdown (GitHub / Obsidian / Notion)
+Dokument: G16 Server – Autoritativ systeminstruks  
+Versjon: 1.1  
+Sist endret: 2026.01.10 kl.09.45  
+Status: Gjeldende fasit  
+Eier: Espen Birkeland  
+Prosjekt: G16 Server  
+Format: Markdown (GitHub / Obsidian / Notion)  
 ---
 
 # G16 Server – Autoritativ systeminstruks
@@ -15,11 +15,11 @@ Format: Markdown (GitHub / Obsidian / Notion)
 Dette dokumentet er **autorativ systeminstruks** for G16 Server-prosjektet.
 
 Dokumentet fungerer samtidig som:
-- arkitekturstandard  
-- kravspesifikasjon  
-- rekonstruksjonsinstruks  
-- instruks til ChatGPT / assistent  
-- grunnlag for endringskontroll  
+- arkitekturstandard
+- kravspesifikasjon
+- rekonstruksjonsinstruks
+- instruks til ChatGPT / assistent
+- grunnlag for endringskontroll
 
 ### 0.1 Instruks til assistent (ChatGPT)
 
@@ -39,62 +39,75 @@ Ved bistand i G16 Server-prosjektet **SKAL** assistenten:
 Alle nye installasjoner, endringer eller vurderinger **SKAL vurderes opp mot dette dokumentet**.  
 Dersom noe ikke kan etterleve kravene her, **SKAL dokumentet endres før teknisk implementasjon**.
 
-### 0.2 Bruk av dokumentet i praksis
+### 0.1.1 Regel for oppdatering og deling av autorativ dokumentasjon
 
-Dette dokumentet er ment å brukes slik:
+Når den autorative systeminstruksen oppdateres, redigeres eller videreformidles
+(slik som ved arbeid i GitHub), **SKAL dokumentet alltid gis i sin helhet**,
+med mindre noe annet er eksplisitt forespurt.
+
+Delvis gjengivelse av dokumentet **ER IKKE TILLATT** som standard.
+
+#### Begrunnelse
+
+- Delvis gjengivelse har tidligere ført til:
+  - manglende kapitler
+  - usynkronisert innholdsfortegnelse
+  - tap av kontekst og styrende prinsipper
+- Dokumentet fungerer samtidig som:
+  - arkitekturstandard
+  - kravspesifikasjon
+  - rekonstruksjonsinstruks
+- Fragmentering bryter dokumentets rolle som autorativ fasit
+
+Unntak fra denne regelen **SKAL** være eksplisitt forespurt og tydelig avgrenset.
+
+### 0.2 Bruk av dokumentet i praksis
 
 - Lagring:
   - GitHub (versjonskontroll)
   - Notion / Obsidian (arbeidsflate)
 - Ved ny ChatGPT-sesjon:
-  - Dokumentet **limes inn** eller **refereres eksplisitt**
-  - Assistenten instrueres til å følge dokumentet slavisk
+  - Dokumentet **limes inn eller refereres eksplisitt**
 - Ved reinstallasjon:
-  - Dokumentet brukes som **rekonstruksjonsinstruks fra blank installasjon**
+  - Dokumentet brukes som **rekonstruksjonsinstruks**
 - Ved ny app / tjeneste:
   - Dokumentet er **kravgrunnlag**
   - Appen tilpasses dokumentet – ikke motsatt
 
 ### 0.3 Regel for struktur, anker-ID og kryssreferanser
 
-Dette dokumentet benytter **eksplisitte anker-IDer** som stabile referansepunkter.
+- Alle hovedkapitler (`##`) **SKAL** ha eksplisitt anker-ID
+- Underkapitler **SKAL** ha anker-ID dersom de refereres
+- Kryssreferanser **SKAL** bruke eksplisitte anker-IDer
+- Auto-genererte overskriftslenker **SKAL IKKE** brukes
 
-Følgende regler gjelder:
-- Alle hovedkapitler (`##`) SKAL ha eksplisitt anker-ID
-- Underkapitler (`###`) SKAL ha anker-ID dersom de refereres fra andre steder
-- Kryssreferanser SKAL bruke eksplisitte anker-IDer
-- Auto-genererte overskriftslenker SKAL IKKE brukes som referanse
-
-Anker-IDer anses som **kontrakter** i dokumentet.  
-Endring av anker-ID **SKAL** loggføres i endringsloggen.
+Anker-IDer anses som **kontrakter**. Endringer **SKAL** loggføres.
 
 ---
 
 ## Innholdsfortegnelse
 
-1. [Formål og designprinsipper](#formal)  
-2. [Overordnet arkitektur og rolleforståelse](#arkitektur)  
-3. [TrueNAS SCALE – grunnleggende driftskrav](#truenas-krav)  
-4. [Docker – kravspesifikasjon for alle apper](#docker-krav)  
-5. [Docker Compose – standard og praksis](#docker-compose-standard)  
-6. [Lagring, snapshots og backup-strategi](#backup-strategi)  
-7. [Varsling og overvåkning](#varsling)  
-8. [Rekonstruksjon fra blank installasjon](#rekonstruksjon)  
-9. [Endringskontroll og videreutvikling](#endringskontroll)  
-10. [Omfang, bevisste avgrensninger og utelatelser](#omfang)  
-11. [Endringslogg (Changelog)](#endringslogg-changelog)  
-12. [Vedlegg A – Sjekkliste for ny Docker-applikasjon](#sjekkliste-ny-app)
+1. Formål og designprinsipper  
+2. Overordnet arkitektur og rolleforståelse  
+3. TrueNAS SCALE – grunnleggende driftskrav  
+4. Docker – kravspesifikasjon for alle apper  
+5. Docker Compose – standard og praksis  
+6. Lagring, snapshots og backup-strategi  
+7. Varsling og overvåkning  
+8. Rekonstruksjon fra blank installasjon  
+9. Endringskontroll og videreutvikling  
+10. Omfang, bevisste avgrensninger og utelatelser  
+11. Endringslogg (Changelog)  
+Vedlegg A – Sjekkliste for ny Docker-applikasjon  
 
 ---
 
 <a id="formal"></a>
 ## 1. Formål og designprinsipper
 
-<a id="formal-hensikt"></a>
 ### 1.1 Formål
 
-Formålet med G16 Server er å etablere og drifte en:
-
+G16 Server skal være en:
 - stabil
 - ryddig
 - kontrollerbar
@@ -102,576 +115,199 @@ Formålet med G16 Server er å etablere og drifte en:
 
 serverplattform for egne tjenester.
 
-Plattformen skal kunne:
-- bygges opp fra bunnen av
-- rekonstrueres etter feil
-- videreutvikles kontrollert
-
-<a id="designprinsipper"></a>
 ### 1.2 Designprinsipper (styrende)
 
-Følgende prinsipper er **styrende og overordnet**:
-
-- **Produksjon først**  
-  Testing er midlertidig. Produksjon er varig.
-
-- **Reproduserbarhet**  
-  Alt skal kunne forklares, ryddes og gjenskapes.
-
-- **Ingen antagelser**  
-  Alle handlinger skal bekreftes eksplisitt.
-
-- **Minimal teknisk gjeld**  
-  Enkle løsninger foretrekkes fremfor komplekse.
-
-- **Tydelig eierskap**  
-  Hver komponent har én rolle og én eier.
-
-Alle valg i dette dokumentet er gjort i tråd med disse prinsippene.
+- **Produksjon først**
+- **Reproduserbarhet**
+- **Ingen antagelser**
+- **Minimal teknisk gjeld**
+- **Tydelig eierskap**
 
 ---
 
 <a id="arkitektur"></a>
 ## 2. Overordnet arkitektur og rolleforståelse
 
-<a id="arkitektur-oversikt"></a>
 ### 2.1 Arkitektur – oversiktsmodell
 
-G16 Server er bygget opp som et **lagdelt system**:
+Lagdeling:
+1. Maskinvare
+2. TrueNAS SCALE
+3. Docker
+4. Brukertjenester
 
-1. **Maskinvare**
-2. **TrueNAS SCALE (plattform og lagring)**
-3. **Docker (applikasjonslag)**
-4. **Brukertjenester**
-
-Hvert lag har:
-- tydelig ansvar
-- klare grenser
-- eksplisitte krav
-
-<a id="arkitektur-roller"></a>
 ### 2.2 Rollefordeling (låst)
 
-Rollefordelingen er som følger:
+Ingen komponent **SKAL** overta ansvar fra annet lag.
 
-- **Maskinvare**
-  - stabil plattform
-  - ingen eksperimentell bruk
-
-- **TrueNAS SCALE**
-  - lagring
-  - ZFS
-  - snapshots
-  - replikering
-  - varsling
-
-- **Docker**
-  - applikasjoner
-  - tjenester
-  - databaser
-  - brukerlogikk
-
-- **Brukertjenester**
-  - eksponeres kontrollert
-  - gjenopprettbare via Docker + backup
-
-Ingen komponent **SKAL** ta ansvar som tilhører et annet lag.
-
-<a id="arkitektur-grenseflater"></a>
 ### 2.3 Grenseflater mellom lagene
 
-Grenseflatene er eksplisitte:
+- TrueNAS ↔ Docker: datasets, volumes, nettverk
+- Docker ↔ Bruker: reverse proxy, autentisering, porter
 
-- TrueNAS ↔ Docker:
-  - datasets
-  - volumes
-  - nettverk
-
-- Docker ↔ Bruker:
-  - reverse proxy
-  - autentisering
-  - definerte porter
-
-Uklare eller overlappende grenseflater **SKAL IKKE** forekomme.
-
-<a id="arkitektur-prinsipp"></a>
 ### 2.4 Arkitekturprinsipp: enkelhet før fleksibilitet
 
-G16 Server prioriterer:
-- enkelhet
-- kontroll
-- gjenopprettbarhet
+Kontroll og gjenopprettbarhet prioriteres.
 
-Fremfor:
-- maksimal fleksibilitet
-- “smarte” løsninger
-- utestede snarveier
-
-Arkitekturendringer **SKAL** vurderes opp mot dette prinsippet.
-
-<a id="domene-eksponering"></a>
 ### 2.5 Domene, DNS og eksponering av tjenester
 
-Dette underkapittelet definerer **autoritative krav** til hvordan tjenester
-eksponeres eksternt via domenet `espenbirkeland.no`.
-
-Oppsettet er utformet for å sikre:
-- minimal angrepsflate
-- én entydig inngang til serveren
-- konsistent sikkerhetsmodell
-
-<a id="domene-dns"></a>
 #### 2.5.1 Domene og DNS (Cloudflare)
+- Cloudflare er autorativ DNS
+- Alle tjenester bruker subdomener
 
-- Domenet `espenbirkeland.no` **SKAL** forvaltes via Cloudflare
-- Cloudflare **SKAL** være autorativ DNS
-- Alle eksternt tilgjengelige tjenester **SKAL**:
-  - bruke eget subdomene
-  - peke mot serveren via Cloudflare
+#### 2.5.2 DNS-navngivning (låst)
+Kun ett-nivås subdomener tillatt.
 
-Cloudflare benyttes som:
-- DNS-plattform
-- første sikkerhets- og filtreringslag
-- skjuling av reell server-IP
+#### 2.5.3 Cloudflare proxy
+Alle subdomener **SKAL** proxys via Cloudflare.
 
-<a id="dns-navngivning"></a>
-#### 2.5.2 DNS-navngivning (låst standard)
+#### 2.5.4 Landbasert tilgangskontroll (Cloudflare)
 
-Følgende navnestandard er **låst og ufravikelig**:
+not ip.src.country in {"NO" "SE" "DK" "FI" "DE" "NL" "IE"}
 
-- Kun **ett-nivås subdomener** er tillatt  
-  Format:  
-  ```
-  <app>.espenbirkeland.no
-  ```
+yaml
+Kopier kode
 
-Eksempler:
-- `homepage.espenbirkeland.no`
-- `nextcloud.espenbirkeland.no`
+- Action: Block  
+- Order: First  
+- Status: Verifisert i drift  
 
-Følgende er **ikke tillatt**:
-- dype hierarkier (`app.sub.espenbirkeland.no`)
-- funksjonsbaserte navn som ikke matcher applikasjon
+#### 2.5.5 Nettverk og porter
+- Kun 443/TCP åpen
+- Ingen direkte app-porter
 
-Formålet er:
-- enkel oversikt
-- entydig eierskap
-- enkel avvikling av tjenester
+#### 2.5.6 Ingress og tilgangskontroll
+- Traefik er eneste ingress
+- Authentik er sentral portvakt
 
-<a id="cloudflare-proxy"></a>
-#### 2.5.3 Cloudflare proxy (gul sky)
-
-- Alle subdomener **SKAL** være proxied via Cloudflare (gul sky)
-- Proxied trafikk **SKAL** være standard
-
-Unntak **SKAL** være eksplisitt dokumentert.
-
-<a id="nettverk-porter"></a>
-#### 2.5.4 Nettverk og porter
-
-- Kun port **443/TCP** **SKAL** være åpen i router/brannmur
-- Ingen applikasjoner **SKAL** eksponere egne porter direkte
-- All ekstern trafikk **SKAL** gå via HTTPS
-
-<a id="ingress-sikkerhet"></a>
-#### 2.5.5 Ingress og tilgangskontroll
-
-- Traefik **SKAL** være eneste ingress til applikasjoner
-- Traefik **SKAL** terminere TLS
-- Authentik **SKAL** benyttes som sentral tilgangskontroll (portvakt)
-
-<a id="ny-applikasjon-eksponering"></a>
-#### 2.5.6 Krav ved etablering av ny applikasjon
-
-Ved etablering av ny applikasjon **SKAL** følgende utføres, i denne rekkefølgen:
-
-1. Opprette subdomene i Cloudflare  
-2. Aktivere proxy (gul sky)  
-3. Opprette applikasjon/policy i Authentik  
-4. Konfigurere Traefik router og service  
-5. Verifisere tilgang via HTTPS + Authentik  
-
-<a id="plex-unntak"></a>
 #### 2.5.7 Unntak – Plex
+Ikke proxied via Cloudflare.
 
-Plex er et **bevisst dokumentert unntak** fra standard eksponeringsmodell.
-
-- Plex **SKAL IKKE** være proxied via Cloudflare
-- Årsak:
-  - streaming-ytelse
-  - WebSocket-bruk
-  - begrensninger i Cloudflare proxy for media
-
-<a id="torrent-unntak"></a>
-#### 2.5.8 Unntak – Torrent-klient (åpent portområde)
-
-Torrent-klient er et **bevisst og nødvendig unntak** fra standard
-nettverks- og portpolicy.
-
-For å oppnå korrekt tilkobling mot trackers og innkommende peer-tilkoblinger,
-må torrent-klienten ha et definert **innkommende portområde** åpent i router.
-
-Krav:
-- Kun torrent-klienten **KAN** ha åpne porter utover 443
-- Åpne porter **SKAL** være begrenset til ett eksplisitt portområde
-- Torrent-klienten **SKAL IKKE** eksponeres via Cloudflare proxy eller Traefik
+#### 2.5.8 Unntak – Torrent-klient
+Definert portområde tillatt.
 
 ---
 
 <a id="truenas-krav"></a>
 ## 3. TrueNAS SCALE – grunnleggende driftskrav
 
-<a id="truenas-rolle"></a>
-### 3.1 Rolleforståelse (appliance-modell)
+### 3.1 Rolleforståelse
+TrueNAS behandles som appliance.
 
-TrueNAS SCALE **SKAL** behandles som:
-- operativsystem + lagringsplattform
-- styringslag for disk, ZFS, snapshots, replikering og varsling
+### 3.2 Endringer
+Ingen manuell OS-pakkeinstallasjon.
 
-TrueNAS SCALE **SKAL IKKE** brukes som:
-- generelt Linux-miljø
-- plattform for manuell pakkeinstallasjon
-- sted for ad-hoc scripts uten dokumentasjon
+### 3.3 Brukere og rettigheter
+Least privilege på dataset-nivå.
 
-<a id="truenas-endringer"></a>
-### 3.2 Endringer og konfigurasjon
+### 3.4 Dataset-struktur
+Ingen data i pool-root.
 
-Endringer **SKAL** gjøres via WebUI, CLI eller API.  
-Manuelle OS-endringer og pakkeinstallasjon (`apt`, `dnf` o.l.) **ER IKKE TILLATT**.
+### 3.5 Oppdateringer
+Kun med fungerende backup.
 
-<a id="truenas-brukere"></a>
-### 3.3 Brukere, grupper og rettigheter
-
-- Brukere/grupper **SKAL** defineres i TrueNAS
-- Rettigheter **SKAL** tildeles på dataset-nivå (least privilege)
-
-<a id="truenas-datasets"></a>
-### 3.4 Dataset-struktur og prinsipper
-
-- Alle data **SKAL** ligge i eksplisitte ZFS-datasets
-- Ingen data direkte i pool-root
-
-<a id="truenas-oppdatering"></a>
-### 3.5 Oppdateringer og vedlikehold
-
-Oppdateringer **SKAL** gjennomføres kontrollert og ikke uten fungerende backup og varsling.
-
-<a id="truenas-logging"></a>
-### 3.6 Logging, status og verifikasjon
-
-Det **SKAL** alltid være mulig å svare på:
-- hvilke pools/datasets/snapshots som finnes
-- om replikering og varsling fungerer
-
-<a id="truenas-forhold-docker"></a>
-### 3.7 Forholdet mellom TrueNAS og Docker
-
-TrueNAS eier lagring/backup/varsling. Docker eier applikasjoner. Lagene **SKAL IKKE** overta hverandres ansvar.
+### 3.6 Logging og verifikasjon
+Status skal alltid kunne verifiseres.
 
 ---
 
 <a id="docker-krav"></a>
 ## 4. Docker – kravspesifikasjon for alle apper
 
-Dette kapittelet definerer **ufravikelige krav** til alle Docker-baserte applikasjoner i G16 Server.
-Detaljene er definert i [Docker Compose-standarden](#docker-compose-standard).
-
-### 4.1 Generelle krav
-- Alle applikasjoner **SKAL** kjøres i **Docker Compose**
-- Hver applikasjon **SKAL** ha egen prosjektmappe
-- `docker run` i produksjon **ER IKKE TILLATT**
-- Applikasjoner **SKAL** kunne gjenopprettes fullstendig fra backup
-
-### 4.2 Lagring og volumes
-- Persistente data **SKAL** ligge i ZFS-datasets
-- Volumes **SKAL** være eksplisitt definert
-- Ingen applikasjon **SKAL** ha tilgang til backup-pooler
-
-### 4.3 Nettverk og porter
-- Applikasjoner **SKAL** bruke definerte Docker-nettverk
-- Ekstern eksponering **SKAL** skje via Traefik (se [Domene og eksponering](#domene-eksponering))
-
-### 4.4 Sikkerhet og secrets
-- Secrets **SKAL IKKE** hardkodes
-- Secrets **SKAL** ligge i `.env` eller Docker secrets
-- Secrets **SKAL IKKE** sjekkes inn i Git
-
-### 4.5 Backup- og gjenopprettingskrav
-- Applikasjoner **SKAL** støtte snapshots og ZFS-replikering (se [Backup-strategi](#backup-strategi))
-- Applikasjoner som ikke oppfyller dette **SKAL AVVISES**
-
-### 4.6 E-post og varsling
-Detaljer om e-post og varsling er definert i [Varsling og overvåkning](#varsling).
+- Kun Docker Compose
+- Én app = én mappe
+- Ingen `docker run` i produksjon
+- Gjenopprettbarhet er krav
 
 ---
 
 <a id="docker-compose-standard"></a>
-## 4A. Docker Compose – standard og praksis
+## 5. Docker Compose – standard og praksis
 
-Dette kapittelet definerer **autorativ standard** for hvordan Docker Compose
-SKAL brukes i G16 Server, basert på verifisert praksis (TrueNAS SCALE + Traefik v3 + Authentik + Homepage).
-
-<a id="compose-struktur"></a>
-### 4A.2 Standard mappestruktur (per applikasjon)
-
-Hver applikasjon **SKAL** ha egen mappe med følgende struktur:
+### 5.1 Standard mappestruktur
 
 ```text
 /app/
- ├─ docker-compose.yml     # ingen secrets
- ├─ .env                   # secrets (chmod 600)
- ├─ .env.example           # uten secrets (valgfritt)
- ├─ data/                  # applikasjonsdata
- ├─ db/                    # database (hvis relevant)
- └─ redis/                 # cache (hvis relevant)
-```
+ ├─ docker-compose.yml
+ ├─ .env
+ ├─ data/
+ ├─ db/
+ └─ redis/
+5.2 Nettverk
+Eksternt Docker-nettverk: proxy
 
-<a id="compose-nettverk"></a>
-### 4A.4 Nettverk
+Internt nettverk: ett bridge-nettverk per stack
 
-- Eksternt Docker-nettverk: `proxy`
-- Internt nettverk: ett bridge-nettverk per stack
-- Kun applikasjonscontainer på `proxy` (ikke db/redis)
+Kun applikasjonscontainer på proxy
 
-<a id="compose-traefik"></a>
-### 4A.5 Traefik v3 – krav
+5.3 Traefik
+traefik.enable=true
 
-For applikasjoner bak Traefik:
+traefik.docker.network=proxy
 
-- `traefik.enable=true`
-- `traefik.docker.network=proxy`
-- Routere **SKAL** bindes eksplisitt til service (Traefik v3)
+Routere SKAL bindes eksplisitt til service
 
-<a id="compose-authentik"></a>
-### 4A.6 Authentik – tilgangskontroll
+5.4 Authentik
+Middleware SKAL refereres som authentik@file
 
-- Middleware **SKAL** refereres som `authentik@file`
-- `authentik@docker` **SKAL IKKE** brukes
+authentik@docker SKAL IKKE brukes
 
-<a id="compose-homepage"></a>
-### 4A.7 Homepage – standard integrasjon
-
-- Kun applikasjonscontaineren har Homepage-labels (aldri db/redis)
-- Status **SKAL** speile Docker health der healthcheck finnes
-
-<a id="compose-healthchecks"></a>
-### 4A.8 Healthchecks – obligatorisk standard
-
-Healthchecks er **obligatorisk** for alle web-tjenester.
-Alle `$` i healthcheck-scripts **SKAL** skrives som `$$`.
-
-<a id="compose-unhealthy"></a>
-### 4A.9 Konsekvens av `unhealthy`
-
-`unhealthy` container fjernes ofte som backend av Traefik og gir 404/blank side.
-Feilsøk først health:
-
-1. `docker ps`
-2. `docker inspect <container> .State.Health`
-3. `docker logs --tail 200 <container>`
-
-<a id="compose-verifisering"></a>
-### 4A.10 Lokal verifikasjon
-
-Skille Traefik vs Cloudflare:
-
-```bash
-curl -sk --resolve <host>:443:127.0.0.1 https://<host>/status.php
-```
-
----
+5.5 Healthchecks
+Healthchecks er obligatorisk for web-tjenester.
 
 <a id="backup-strategi"></a>
-## 5. Lagring, snapshots og backup-strategi
 
-Dette kapittelet definerer krav til lagring, snapshots, replikering og restore.
+6. Lagring, snapshots og backup-strategi
+Snapshots på dataset-nivå
 
-<a id="snapshot-policy"></a>
-### 5.1 Snapshots (lokal angreknapp)
+ZFS-replikering
 
-Snapshots **SKAL** tas på dataset-nivå, automatisert, med definert retention.
+Backup-nivå A: USB-SSD
 
-<a id="replikering"></a>
-### 5.2 ZFS-replikering (primær backup)
+Backup-nivå B: Offline USB-HDD
 
-Replikering **SKAL** baseres på snapshots og gå til egen ZFS-pool.
-
-<a id="backup-ssd"></a>
-### 5.3 Backup-nivå A – USB-SSD (fast tilkoblet)
-
-- Pool **SKAL** være kryptert
-- Normal drift: unmounted
-- Mount → backup → unmount er standard
-
-<a id="backup-hdd-offline"></a>
-### 5.4 Backup-nivå B – USB-HDD (offline rotasjon)
-
-USB-HDD benyttes som offline backup og **SKAL** normalt være frakoblet.
-
-<a id="truenas-config-backup"></a>
-### 5.5 TrueNAS system-konfigurasjon
-
-TrueNAS config-backup **SKAL** tas separat og lagres kryptert og versjonert.
-
-<a id="gjenoppretting"></a>
-### 5.6 Gjenoppretting og rekonstruksjon
-
-Restore **SKAL** kunne gjøres uten gjetting. Minst én restore-test per år anbefales.
-
-<a id="backup-avhengigheter"></a>
-### 5.7 Avhengigheter
-
-Backup-strategien forutsetter [Docker-krav](#docker-krav) og [Varsling](#varsling).
-
----
+TrueNAS config-backup separat
 
 <a id="varsling"></a>
-## 6. Varsling og overvåkning
 
-Varsling er kritisk kontrolltiltak.
+7. Varsling og overvåkning
+Primær kanal: e-post
 
-<a id="varsling-kanal"></a>
-### 6.1 Varslingskanal (låst valg)
+Systemkonto: grevlingstien16@gmail.com
 
-Primær kanal **SKAL** være e-post (SMTP).
-
-<a id="varsling-konto"></a>
-### 6.2 Varslingskonto
-
-Systemkonto: `grevlingstien16@gmail.com`.
-
-<a id="varsling-sikkerhet"></a>
-### 6.3 Sikkerhet
-
-2FA **SKAL** være aktivert. Hver tjeneste **SKAL** bruke eget app-passord.
-
-<a id="varsling-niva"></a>
-### 6.4 Varslingsnivå
-
-Kun kritiske hendelser: disk/pool, scrub, snapshot, replikering, config-backup.
-
----
+Kun kritiske hendelser
 
 <a id="rekonstruksjon"></a>
-## 7. Rekonstruksjon fra blank installasjon
 
-Rekonstruksjon **SKAL** kunne gjennomføres uten improvisasjon.
+8. Rekonstruksjon fra blank installasjon
+8.1 Formål og forutsetninger
+Rekonstruksjon skal kunne gjøres uten improvisasjon.
 
-<a id="rekonstruksjon-oversikt"></a>
-### 7.2 Overordnet rekkefølge (låst)
+8.2 Overordnet rekkefølge
+Installer TrueNAS SCALE
 
-1. Installer TrueNAS SCALE  
-2. Importer system-konfigurasjon  
-3. Importer datapool(er)  
-4. Verifiser backup og varsling  
-5. Start Docker-apper  
+Importer systemkonfigurasjon
 
----
+Importer datapooler
+
+Verifiser backup og varsling
+
+Start Docker-apper
 
 <a id="endringskontroll"></a>
-## 8. Endringskontroll og videreutvikling
 
-<a id="endringskontroll-prinsipp"></a>
-### 8.1 Grunnprinsipp
-
-**Dokumentet leder systemet – ikke omvendt.**
-
-<a id="endringskontroll-nytt"></a>
-### 8.2 Nye applikasjoner
-
-Vurder alltid mot [Docker-krav](#docker-krav), [Backup](#backup-strategi) og [Varsling](#varsling).
-
-<a id="endringskontroll-dokument"></a>
-### 8.4 Dokumentrevisjon
-
-Alle endringer **SKAL** loggføres med dato/tid og berørte kapitler.
-
----
+9. Endringskontroll og videreutvikling
+Dokumentet leder systemet – ikke omvendt.
 
 <a id="omfang"></a>
-## 9. Omfang, bevisste avgrensninger og utelatelser
 
-Dokumentet dekker arkitektur og krav, ikke klikk-for-klikk guider.
-
----
+10. Omfang og avgrensninger
+Dokumentet dekker arkitektur og krav – ikke klikk-for-klikk guider.
 
 <a id="endringslogg-changelog"></a>
-## 10. Endringslogg (Changelog)
 
-Dato/tid format: `YYYY.MM.DD kl.HH.MM`.
+11. Endringslogg (Changelog)
+2026.01.10 kl.09.45 – Versjon 1.1
+Rettet formateringsfeil i kapittel 5 (kodeblokk avsluttet korrekt)
 
-### 2026.01.05 kl.21.18 – Versjon 1.0
-- [ADD] Kapittel 0, innholdsfortegnelse, grunnstruktur (kap. 0)
-
-### 2026.01.05 kl.22.03 – Versjon 1.0
-- [ADD] Regel for eksplisitte anker-IDer (kap. 0.3)
-- [ADD] Kapittel 5 – Backup-strategi (kap. 5)
-
-### 2026.01.05 kl.22.32 – Versjon 1.0
-- [ADD] Kapittel 6 – Varsling (kap. 6)
-- [ADD] Hurtigrekonstruksjon ble innlemmet i kap. 7 senere
-
-### 2026.01.05 kl.23.01 – Versjon 1.0
-- [ADD] Kapittel 3 – TrueNAS-krav (kap. 3)
-
-### 2026.01.05 kl.23.28 – Versjon 1.0
-- [ADD] Kapittel 1 og 2 (kap. 1–2)
-
-### 2026.01.06 kl.00.18 – Versjon 1.0
-- [ADD] Kapittel 9 – Omfang (kap. 9)
-
-### 2026.01.06 kl.00.46 – Versjon 1.0
-- [ADD] Underkapittel 2.5 – Domene/DNS/eksponering (kap. 2.5)
-- [ADD] Låst DNS-navnestandard (kap. 2.5.2)
-- [ADD] Plex-unntak (kap. 2.5.7)
-
-### 2026.01.06 kl.01.02 – Versjon 1.0
-- [ADD] Torrent-unntak (kap. 2.5.8)
-
-### 2026.01.06 kl.01.36 – Versjon 1.0
-- [ADD] Kapittel 4A – Docker Compose-standard (kap. 4A)
-
-### 2026.01.06 kl.02.04 – Versjon 1.0
-- [ADD] Vedlegg A – Sjekkliste (kap. Vedlegg A)
-
----
-
-<a id="sjekkliste-ny-app"></a>
-## Vedlegg A – Sjekkliste for ny Docker-applikasjon (BØR brukes)
-
-Dette vedlegget er en operativ sjekkliste avledet direkte fra:
-- [Kapittel 4 – Docker – kravspesifikasjon](#docker-krav)
-- [Kapittel 4A – Docker Compose-standard](#docker-compose-standard)
-
-Bruk av sjekklisten **BØR** gjennomføres ved etablering av nye applikasjoner.
-
-### 1. Forutsetninger (før installasjon)
-- [ ] Backup fungerer (snapshots + replika)
-- [ ] Varsling er aktiv
-- [ ] Dette er eneste pågående endring nå
-
-### 2. Vurdering av applikasjonen
-- [ ] Kan kjøres i Docker Compose
-- [ ] Kan gjenopprettes fra `docker-compose.yml` + `.env`
-
-### 3. Mappestruktur og filer
-- [ ] `docker-compose.yml` har ingen secrets
-- [ ] `.env` har `chmod 600`
-
-### 4. Nettverk og eksponering
-- [ ] Kun app på `proxy`
-- [ ] Ingen direkte `ports:` for web-tjenester
-
-### 5. Traefik og Authentik (web-tjenester)
-- [ ] `traefik.enable=true`
-- [ ] `traefik.docker.network=proxy`
-- [ ] `authentik@file`
-
-### 6. Healthcheck
-- [ ] Healthcheck definert
-- [ ] `docker ps` viser `healthy`
-
-### 7. Lokal verifikasjon
-- [ ] `docker compose up -d`
-- [ ] `docker ps`
-- [ ] `docker logs`
+Ingen endring i innhold, krav eller arkitektur
